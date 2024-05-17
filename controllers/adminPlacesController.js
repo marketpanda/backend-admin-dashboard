@@ -74,4 +74,30 @@ export const adminPlacesGetPendingImageUpload = async (req, res, next) => {
     
     }
 }
+
+export const uploadSingleRowOfImagesLink = async (req, res, next) => {
+	const secureUrls = req.body.secureUrlsCloudinary
+	const id = req.body.id
+
+    const getPlaceWithNoImage = await Places.findByPk(id)
+
+    if (!getPlaceWithNoImage) {
+        return next(createError(404, "Place not found"))
+    }
+
+    try {
+        const updatePlaceWithNewImages = await getPlaceWithNoImage.update({ imgs: secureUrls })
+        return res.status(200).json({
+            data: updatePlaceWithNewImages,
+            message: "success"
+        })
+    } catch (error) {
+        //res.status(500).json({ error: error.message })
+		return next(createError(500, "Something went wrong"))
+    }
+}
+//     res.status(200).json({ urls: secureUrls, id: id })
+// } else {
+//     res.status(400).json({ msg: 'Place not found'})
+// }
  
