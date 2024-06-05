@@ -10,7 +10,5 @@ router.get('/pendingImageUpload', adminPlacesGetPendingImageUpload)
 
 router.post('/bulkUpload', adminPlacesBulkUpload) 
 router.post('/singleRowLinksUpdate', uploadSingleRowOfImagesLink)
-
  
-
 export default router
