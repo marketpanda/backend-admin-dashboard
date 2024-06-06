@@ -2,7 +2,10 @@ import {  ARRAY, INTEGER, STRING, TEXT, GEOMETRY } from 'sequelize'
 import sequelize from '../database.js'
 import User from './modelUser.js'
 
-
+ 
+//     "websiteAndorFbPage": "https://www.facebook.com/TheBlancoFamilyMuseum/",
+//     "storeHours": "Open Tuesday to Sunday 9:00am - 6:00pm",
+ 
 
 const Places = sequelize.define('vue_places', {
     id: {
@@ -27,6 +30,10 @@ const Places = sequelize.define('vue_places', {
         type: STRING,
         allowNull: true
     },
+    category: {
+        type: STRING,
+        allowNull: true
+    },
     location: {
         type: STRING,
         allowNull: true
@@ -47,6 +54,14 @@ const Places = sequelize.define('vue_places', {
         type: STRING,
         allowNull: true
     }, 
+    websiteAndorFbPage: {
+        type: STRING,
+        allowNull: true
+    }, 
+    storeHours: {
+        type: STRING,
+        allowNull: true
+    },  
     landmark: {
         type: STRING,
         allowNull: true
@@ -76,6 +91,10 @@ const Places = sequelize.define('vue_places', {
         allowNull: true
     }, 
     contactNumber: {
+        type: STRING,
+        allowNull: true
+    },
+    plusCode: {
         type: STRING,
         allowNull: true
     }  

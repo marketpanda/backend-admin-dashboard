@@ -18,24 +18,50 @@ export const adminPlacesBulkUpload = async(req, res, next) => {
     try {
         const newArray = []
 
+        // {
+        //     "ischecked": true,
+        //     "nameOfPlace": "Blanco Family Art Museum",
+        //     "category2": "Art Museums and Galleries",
+        //     "address": "312B A. Ibañez St, Angono, 1930 Lalawigan ng Rizal",
+        //     "contactNo": "(02) 8651-0048",
+        //     "websiteAndorFbPage": "https://www.facebook.com/TheBlancoFamilyMuseum/",
+        //     "storeHours": "Open Tuesday to Sunday 9:00am - 6:00pm",
+        //     "coordinates": "14.52530, 121.14938",
+        //     "plusCode": "G4GX+4P Angono, Rizal",
+        //     "imgs": [
+        //         null
+        //     ],
+        //     "coordsSpatial": {
+        //         "type": "Point",
+        //         "coordinates": [
+        //             121.14938,
+        //             14.5253
+        //         ]
+        //     }
+        // }
+
         tabulatedData.map((item) => {
             const singleItem =  {
                 userId: item.userId,
-                name: item.name,
+                name: item.nameOfPlace,
                 address: item.address,
                 type: item.type,
-                coords: item.coords, 
+                category: item.category2,
+                coords: item.coordinates, 
                 cityProvince: item.cityProvince,
                 cityId: item.cityId,
                 description: item.description,
                 email: item.email,
+                websiteAndorFbPage: item.websiteAndorFbPage,
+                storeHours: item.storeHours,
                 landmark: item.landmark,
                 mustTry: item.mustTry,
                 role: item.role,
                 img: item.img,
                 img: item.imgs,  
                 coordsSpatial: item.coordsSpatial,
-                contactNumber: item.contactNumber
+                contactNumber: item.contactNo,
+                plusCode: item.plusCode, 
             }  
 
             newArray.push(singleItem)
