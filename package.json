@@ -30,7 +30,9 @@
     "querystring": "^0.2.1",
     "sequelize": "^6.33.0",
     "sharp": "^0.32.1",
-    "socket.io": "^4.6.1"
+    "socket.io": "^4.6.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "scripts": {
     "go": "nodemon -e js,html,css,json server.js",

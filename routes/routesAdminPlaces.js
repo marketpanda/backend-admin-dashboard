@@ -5,7 +5,7 @@ import { adminGetPlaces, adminPlacesBulkUpload, adminPlacesGetPendingImageUpload
 
 const router = express.Router()
 
-router.get('/plces', adminGetPlaces) 
+router.get('/places', adminGetPlaces) 
 router.get('/pendingImageUpload', adminPlacesGetPendingImageUpload) 
 
 router.post('/bulkUpload', adminPlacesBulkUpload) 

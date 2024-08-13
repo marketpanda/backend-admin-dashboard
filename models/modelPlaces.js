@@ -1,4 +1,4 @@
-import {  ARRAY, INTEGER, STRING, TEXT, GEOMETRY } from 'sequelize'
+import {  ARRAY, INTEGER, STRING, TEXT, GEOMETRY, JSON } from 'sequelize'
 import sequelize from '../database.js'
 import User from './modelUser.js'
 
@@ -6,7 +6,6 @@ import User from './modelUser.js'
 //     "websiteAndorFbPage": "https://www.facebook.com/TheBlancoFamilyMuseum/",
 //     "storeHours": "Open Tuesday to Sunday 9:00am - 6:00pm",
  
-
 const Places = sequelize.define('vue_places', {
     id: {
         type: INTEGER,
@@ -83,7 +82,8 @@ const Places = sequelize.define('vue_places', {
         allowNull: true
     }, 
     coords: {
-        type: STRING,
+        // type: ARRAY(STRING),
+        type: JSON,
         allowNull: true
     }, 
     coordsSpatial:  {
@@ -97,9 +97,7 @@ const Places = sequelize.define('vue_places', {
     plusCode: {
         type: STRING,
         allowNull: true
-    }  
-
-   
+    }   
 })
 
 // Places.belongsTo(User, {

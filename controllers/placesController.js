@@ -6,13 +6,15 @@ import { Op, Sequelize, col, fn, literal, where } from 'sequelize'
 
 
 export const getPlaces = async (req, res, next) => {
-
+    
     //either by destination (e.g. manila) or id (31)
     const getDestination = req.query.destination
     const placeId = req.query.id
+    // res.status(200).json({data: getDestination})
 
     //not null and not empty
     if (placeId && placeId.trim() !== "") {
+        
         try {
             const getPlaceById = await Places.findByPk(placeId)
             if (!getPlaceById) {
@@ -20,11 +22,12 @@ export const getPlaces = async (req, res, next) => {
             }
             res.status(200).json(getPlaceById)
         } catch (error) {
+            console.log('error', error)
             next(error)
             //res.status(400).json({ msg: 'Could not find place with id ', placeId })
         }
     } else if (getDestination) {
-        
+        console.log('hi there')
         try {
             // const existingEmail = await User.findOne({where: {email: req.body.email}})
             const getPlacesByCity = await Places.findAll({where: {cityProvince: getDestination}})
@@ -33,12 +36,10 @@ export const getPlaces = async (req, res, next) => {
             res.status(200).json(getPlacesByCity)
             //ref
         } catch (error) {
+            console.log(error)
             console.log('an error occured')
         }  
-
     } 
-
-    
 }
 
 export const populateLocation = async(req, res, next) => {
@@ -57,8 +58,6 @@ export const populateLocation = async(req, res, next) => {
     } catch (error) {
         return next (createError(404, "error"))
     }
-     
-    
 }
 
 export const getPlacesFilterSort = async(req, res, next) => {
@@ -160,8 +159,6 @@ export const getPlacesByUser = async(req, res, next) => {
     } catch (error) {
         return next(createError(404, "Something went wrong"))
     }
-
-
 }
 
 export const updatePlaceByUser = async(req, res, next) => {
@@ -196,8 +193,6 @@ export const getPlacesWithinRadius = async(req, res, next) => {
 
         const longitude = parseFloat(match[1])
         const latitude = parseFloat(match[2])
- 
-         
         
         const placesWithinRadius = await Places.findAll({
             attributes: [
@@ -235,5 +230,4 @@ export const getPlacesWithinRadius = async(req, res, next) => {
     } catch (error) {
         res.status(404).json({error: error.message})
     }    
-
 }

@@ -1,3 +1,71 @@
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Places:
+ *          type: object
+ *          required:
+ *              - id
+ *              - userId
+ *              - name
+ *              - address
+ *          properties:
+ *              id:
+ *                  type: integer
+ *                  description: The auto-generate id of the Place
+ *              userId:
+ *                  type: integer
+ *                  description: The id of the user who submitted the place
+ *              name:
+ *                  type: string
+ *                  description: The name of the place
+ *              address:
+ *                  type: string
+ *                  description: The address of the place
+*/
+/**
+ * @swagger
+ * tags:
+ *      name: Places
+ *      description: Places managing API
+ * /admin/places:
+ *      get:
+ *          summary: Lists places for admin dashboard
+ *          tag: [Places]
+ *          responses:
+ *              200:
+ *                  description: The list of places in Watatrip app
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: array
+ *                              items:
+ *                                  $ref: '#/components/schemas/Places'
+ * /admin/pendingImageUpload:
+ *      get:
+ *          summary: The list of places with no images yet
+ *          tag: [Places]
+ *          responses:
+ *              200:
+ *                  description: Displays all the images with status null. User will be prompted to add at least one image per place to display it
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: array
+ *                              items:
+ *                                  $ref: '#/components/schemas/Places'
+ *       
+ * 
+ * 
+ * 
+*/
+
+
+
+
+
+
+
 import * as fs from 'fs'
 import Places from '../models/modelPlaces.js'
 import { createError } from '../utils/errors2.js'
@@ -15,61 +83,43 @@ export const adminPlacesBulkUpload = async(req, res, next) => {
     
     const tabulatedData = req.body
     
-    try {
-        const newArray = []
+    try { 
+        const newArray = tabulatedData.map((item) => { 
 
-        // {
-        //     "ischecked": true,
-        //     "nameOfPlace": "Blanco Family Art Museum",
-        //     "category2": "Art Museums and Galleries",
-        //     "address": "312B A. Ibañez St, Angono, 1930 Lalawigan ng Rizal",
-        //     "contactNo": "(02) 8651-0048",
-        //     "websiteAndorFbPage": "https://www.facebook.com/TheBlancoFamilyMuseum/",
-        //     "storeHours": "Open Tuesday to Sunday 9:00am - 6:00pm",
-        //     "coordinates": "14.52530, 121.14938",
-        //     "plusCode": "G4GX+4P Angono, Rizal",
-        //     "imgs": [
-        //         null
-        //     ],
-        //     "coordsSpatial": {
-        //         "type": "Point",
-        //         "coordinates": [
-        //             121.14938,
-        //             14.5253
-        //         ]
-        //     }
-        // }
-
-        tabulatedData.map((item) => {
-            const singleItem =  {
+            let imgsArray = Array.isArray(item.imgs) ? item.imgs.filter(img => img) : [];
+             
+            // const splitCoords = item.coordinates.split(",").map(coord => coord.trim())
+            return {
                 userId: item.userId,
                 name: item.nameOfPlace,
                 address: item.address,
-                type: item.type,
-                category: item.category2,
-                coords: item.coordinates, 
-                cityProvince: item.cityProvince,
-                cityId: item.cityId,
-                description: item.description,
-                email: item.email,
-                websiteAndorFbPage: item.websiteAndorFbPage,
-                storeHours: item.storeHours,
-                landmark: item.landmark,
-                mustTry: item.mustTry,
-                role: item.role,
-                img: item.img,
-                img: item.imgs,  
-                coordsSpatial: item.coordsSpatial,
-                contactNumber: item.contactNo,
-                plusCode: item.plusCode, 
-            }  
-
-            newArray.push(singleItem)
+                type: item.type || null,
+                location: item.location || null,
+                category: item.category2 || null, 
+                cityProvince: item.cityProvince || null,
+                cityId: item.cityId || null,
+                description: item.description || null,
+                email: item.email || null,
+                websiteAndorFbPage: item.websiteAndorFbPage || null,
+                storeHours: item.storeHours || null,
+                landmark: item.landmark || null,
+                mustTry: item.mustTry || null,
+                role: item.role || null,
+                img: item.img || null,
+                coords:  item.coordinates ||null, 
+                coordsSpatial:  item.coordsSpatial || null,
+                // coords:  item.coordinates || [14.5253, 121.14938], 
+                // coordsSpatial:  item.coordsSpatial || null,
+                // coords: item.coordinates ? item.coordinates.join(',') : null, 
+                // coordsSpatial: item.coordsSpatial || null,
+                contactNumber: item.contactNo || null,
+                plusCode: item.plusCode || null, 
+            }   
         })
 
         let bulkUpload = await Places.bulkCreate(newArray)
- 
-        res.status(200).json({data: tabulatedData, newArray: newArray, bulkUpload: bulkUpload })
+        res.status(200).json({data: tabulatedData, newArray: newArray, bulkUpload: bulkUpload  })
+        // res.status(200).json({ newArray, bulkUpload })
 
     } catch (error) {
         return next (createError(404, error))

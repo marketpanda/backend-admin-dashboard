@@ -7,8 +7,8 @@ import https from 'https'
 import fs from 'fs'
 import cookieParser from 'cookie-parser';
 
-import swaggerjsdoc from 'swagger-jsdoc'
-import swaggerui from 'swagger-ui-express' 
+// import swaggerjsdoc from 'swagger-jsdoc'
+// import swaggerui from 'swagger-ui-express' 
 
 dotenv.config() 
   
@@ -20,11 +20,11 @@ import routesPlaces from './routes/routesPlaces.js'
 import routesRental from './routes/routesRental.js'
 import routesMapBox from './routes/routesMapBox.js'
 import routesAdminPlaces from './routes/routesAdminPlaces.js'
-
+ 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const app = express()
+const app = express();
 
 const corsOptions = { 
     origin: "*",
@@ -50,7 +50,7 @@ app.use(cookieParser())
 // app.get('/', (req, res) => {
 //     res.sendFile(path.join(__dirname, `${process.env.ENV_LOCAL}/public_html/src/index.html`))
 // })
-
+                                                                                    
 let httpsOptions = {
     key: fs.readFileSync('./nginxmobilewatatrip.key'),
     cert: fs.readFileSync('./nginxmobilewatatrip.crt')
@@ -58,7 +58,7 @@ let httpsOptions = {
 const httpsServer = https.createServer( httpsOptions, app )
 
 //login and register
-app.use('/auth', routesAuth) 
+app.use('/auth', routesAuth)
 
 //user edit and (soft) delete
 app.use('/users', routesUser)
@@ -81,15 +81,9 @@ app.use('/places', routesPlaces)
 //mapbox testing
 app.use('/mapbox', routesMapBox)
 
-//begin swagger api documentation
-const swaggerOptions = {
+const options = {
     definition: {
         openapi: "3.0.0",
-        info: {
-            title: "Watatrip Admin API Documentation",
-            version: "1.0",
-            description: "This documentation is for Watatrip dashboard."
-        },
         servers: [
             {
                 url: "http://localhost:3002"
@@ -99,13 +93,16 @@ const swaggerOptions = {
             },
         ]
     },
-    apis: ["./controllers/*.js"]
+    apis: ["./routes/*.js"]
 }
-const swaggerInstance = swaggerjsdoc(swaggerOptions)
-app.use('/api-docs',
-    swaggerui.serve,
-    swaggerui.setup(swaggerInstance)
-    ) 
+
+// const swaggerInstance = swaggerjsdoc(options)
+
+// app.use('/api-docs',
+//     swaggerui.serve,
+//     swaggerui.setup(swaggerInstance)
+// )
+
 
 //page not found
 // app.use((req, res) => {
@@ -122,15 +119,8 @@ app.use((err, req, res, next) => {
         stack: err.stack
     })
 })
- 
-const port = 3002
 
-if (process.env.MACHINE !== 'local') {
-    httpsServer.listen(port, () => {
-        console.log(`Admin dashboard via NodeJS Server is running at port ${port}`)
-    }) 
-} else {
-    app.listen(port, () => {
-        console.log(`Admin dashboard via NodeJS Server is running at port ${port}`)
-    }) 
-}
+const port = 3002
+httpsServer.listen(port, () => {
+    console.log(`Admin dashboard via NodeJS Server is running at port ${port}`)
+})

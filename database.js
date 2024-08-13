@@ -1,7 +1,10 @@
 import Sequelize from 'sequelize'
+import dotenv from 'dotenv';
+
+dotenv.config()
  
 // const DB_HOST_LOCAL = process.env.DB_HOST_LOCAL
-const DB_HOST_LOCAL = 'localhost'
+const DB_HOST_LOCAL = 'localhost2'
  
 let sequelize
 
@@ -11,38 +14,18 @@ if (DB_HOST_LOCAL === 'localhost') {
         host: 'localhost'   
     })  
 } else { 
-    sequelize = new Sequelize('watatrip', 'watatrip', 'T121p@L35FL3T', {
+    sequelize = new Sequelize(
+        process.env.DB_NAME_LOCAL, 
+        process.env.DB_UID_LOCAL, 
+        process.env.DB_PWD_LOCAL,  
+        {
         dialect: 'mysql',
         host: '139.162.8.143'
-    }) 
-    console.log('live server mysql')
-}
+    })   
+} 
 
-
-
-
-
-
-if (sequelize) {
-    console.log('connected to mysql')
-}
+sequelize.authenticate()
+    .then(() => console.log('connected'))
+    .catch((err) => console.error('error in connection', err))
 
 export default sequelize
-
-
-
-// import Sequelize from 'sequelize'
- 
- 
-// const sequelize = new Sequelize('watatrip', 'root', '', {
-//     dialect: 'mysql',
-//     host: 'localhost'
-// })
-
-
-
-// if (sequelize) {
-//     console.log('connected to mysql')
-// }
-
-// export default sequelize
