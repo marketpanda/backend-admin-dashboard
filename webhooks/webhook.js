@@ -8,7 +8,7 @@ app.use('/webhook', (req, res) => {
 
     //https://github.com/WTMSI/backend-watatrip-dashboard.git
     if (repo === 'backend-watatrip-dashboard' && branch === 'main') {
-        exec('./deploy.sh', (error, stdout, strerr) => {
+        exec('../deploy.sh', (error, stdout, strerr) => {
             if (error) {
                 console.error(`execution error: ${error}`)
                 return res.status(500).send(`Deployment failed`)
