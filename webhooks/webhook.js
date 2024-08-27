@@ -2,9 +2,10 @@ import express from 'express';
 import { exec } from 'child_process'
 
 const app = express()
+const PORT = 4000
 
 app.use(express.json())
-app.use('/webhook', (req, res) => {
+app.post('/webhook', (req, res) => {
     const repo = req.body.repository.name
     const branch = req.body.ref.split('/').pop()
     
@@ -28,7 +29,7 @@ app.use('/webhook', (req, res) => {
         
 })
 
-const PORT = 4000
+
 app.listen(PORT, () => {
     console.log(`Webhook server is listening on port ${PORT}`)
 })
