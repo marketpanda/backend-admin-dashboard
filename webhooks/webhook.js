@@ -14,13 +14,13 @@ app.post('/webhook', (req, res) => {
 
     //https://github.com/WTMSI/backend-watatrip-dashboard.git
     if (repo === 'backend-watatrip-dashboard' && branch === 'main') {
-        exec('../deploy.sh', (error, stdout, strerr) => {
+        exec('../deploy.sh', (error, stdout, stderr) => {
             if (error) {
                 console.error(`execution error: ${error}`)
                 return res.status(500).send(`Deployment failed`)
             }
             console.log(`stdout: ${stdout}`)
-            console.log(`strerr: ${strerr}`)
+            console.log(`stderr: ${stderr}`)
             res.status(200).send('Deployed successfully!')
         })
     } else {
