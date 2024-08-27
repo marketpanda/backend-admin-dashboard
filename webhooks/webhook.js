@@ -2,9 +2,11 @@ import express from 'express';
 import { exec } from 'child_process'
 
 const app = express()
+
+app.use(express.json())
 app.use('/webhook', (req, res) => {
-    const repo = req.repository.name
-    const branch = req.ref.split('/').pop()
+    const repo = req.body.repository.name
+    const branch = req.body.ref.split('/').pop()
     const repo2 = req.repository.name
     const branch2 = req.ref.split('/').pop()
 
