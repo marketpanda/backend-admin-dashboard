@@ -20,7 +20,7 @@ export const getPlaces = async (req, res, next) => {
             if (!getPlaceById) {
                 throw new Error('Place not found')
             }
-            res.status(200).json(getPlaceById)
+            res.status(200).json({places: getPlaceById})
         } catch (error) {
             console.log('error', error)
             next(error)
