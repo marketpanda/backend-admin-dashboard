@@ -12,7 +12,7 @@ export const getPlaces = async (req, res, next) => {
     const placeId = req.query.id
     // res.status(200).json({data: getDestination})
 
-    //not null and not empty
+    //not null and not empty2
     if (placeId && placeId.trim() !== "") {
         
         try {
