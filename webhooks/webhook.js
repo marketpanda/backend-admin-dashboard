@@ -22,3 +22,8 @@ app.use('/webhook', (req, res) => {
     }
         
 })
+
+const PORT = 4000
+app.listen(PORT, () => {
+    console.log(`Webhook server is listening on port ${PORT}`)
+})
