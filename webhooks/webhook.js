@@ -7,13 +7,9 @@ app.use(express.json())
 app.use('/webhook', (req, res) => {
     const repo = req.body.repository.name
     const branch = req.body.ref.split('/').pop()
-    const repo2 = req.repository.name
-    const branch2 = req.ref.split('/').pop()
-
+    
     console.log(repo)
-    console.log(branch)
-    console.log(repo2)
-    console.log(branch2)
+    console.log(branch) 
 
     //https://github.com/WTMSI/backend-watatrip-dashboard.git
     if (repo === 'backend-watatrip-dashboard' && branch === 'main') {
