@@ -74,8 +74,21 @@ import { Op, Sequelize, col, fn, literal, where } from 'sequelize'
 
 
 export const adminGetPlaces = async (req, res, next) => { 
-    
-    res.status(200).json({msg: "loading places..."}) 
+    try {
+        const getRecent = await Places.findAll({
+            limit: 10,
+            order: [['createdAt', 'DESC']]
+        }) 
+
+        if (!getRecent) {
+            throw new Error('Something went wrong')
+        }
+        res.status(200).json(getRecent)
+
+    } catch (error) {
+        return next (createError(404, "error"))
+    } 
+     
     
 }
 
