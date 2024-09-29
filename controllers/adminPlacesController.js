@@ -9,6 +9,7 @@
  *              - userId
  *              - name
  *              - address
+ *              - destination
  *          properties:
  *              id:
  *                  type: integer
@@ -22,49 +23,57 @@
  *              address:
  *                  type: string
  *                  description: The address of the place
+ *              destination::
+ *                  type: string
+ *                  description: The name of city or province
 */
 /**
  * @swagger
  * tags:
- *      name: Places
- *      description: Places managing API
- * /admin/places:
- *      get:
- *          summary: Lists places for admin dashboard
- *          tag: [Places]
- *          responses:
- *              200:
- *                  description: The list of places in Watatrip app
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: array
- *                              items:
- *                                  $ref: '#/components/schemas/Places'
+ *  name: Place Destination
+ *  description: Places managing API
+ * /places?destination={destination}:
+ *  get:
+ *      summary: Returns list of tourist attractions based on city or province
+ *      tags: [Places]
+ *      parameters:
+ *        - in: query
+ *          name: destination
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: City or province
+ *      responses:
+ *          200:
+ *              description: The list of places in Watatrip app
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/Places'
+ *          400:
+ *              description: Server error
  * /admin/pendingImageUpload:
- *      get:
- *          summary: The list of places with no images yet
- *          tag: [Places]
- *          responses:
- *              200:
- *                  description: Displays all the images with status null. User will be prompted to add at least one image per place to display it
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: array
- *                              items:
- *                                  $ref: '#/components/schemas/Places'
- *       
- * 
- * 
- * 
+*      get:
+*          summary: The list of places with no images yet
+*          tag: [Places]
+*          responses:
+*              200:
+*                  description: Displays all the images with status null. User will be prompted to add at least one image per place to display it
+*                  content:
+*                      application/json:
+*                          schema:
+*                              type: array
+*                              items:
+*                                  $ref: '#/components/schemas/Places'
+*       
+* 
+* 
+* 
 */
 
-
-
-
-
-
+ 
 
 import * as fs from 'fs'
 import Places from '../models/modelPlaces.js'
@@ -87,9 +96,7 @@ export const adminGetPlaces = async (req, res, next) => {
 
     } catch (error) {
         return next (createError(404, "error"))
-    } 
-     
-    
+    }
 }
 
 export const adminPlacesBulkUpload = async(req, res, next) => {

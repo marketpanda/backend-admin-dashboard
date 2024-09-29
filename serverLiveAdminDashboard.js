@@ -92,7 +92,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: "http://localhost:3002"
+                url: "https://localhost:3002"
             },
             {
                 url: "https://139.162.8.143:3002"
